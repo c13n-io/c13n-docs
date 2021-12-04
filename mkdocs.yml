@@ -1,0 +1,8 @@
+site_name: c13n Documentation
+
+theme:
+  name: readthedocs
+  navigation-depth: 4
+
+extra_css:
+- stylesheets/style.css
