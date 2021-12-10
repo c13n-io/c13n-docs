@@ -1,4 +1,4 @@
-# c13n API documentation
+# c13n documentation
 
 ## Gentle Introduction
 
