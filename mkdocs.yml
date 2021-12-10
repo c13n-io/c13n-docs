@@ -1,4 +1,5 @@
 site_name: c13n Documentation
+site_favicon: 'https://c13n.io/c13n-avatar.png'
 
 theme:
   name: readthedocs
