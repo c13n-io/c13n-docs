@@ -108,7 +108,6 @@ As a receiver, you can also open a listening stream from c13n for incoming payme
 Each message contains the following main components.
 
 - The message string
-  
 - An amount of msat
 
 Populating the message string is optional, meaning that you can send a simple payment by specifying an empty payload.
@@ -116,10 +115,9 @@ Populating the message string is optional, meaning that you can send a simple pa
 You can also choose to send a message anonymously, meaning that the receiving party will not be able to verify the source of the message/payment.
 
 Due to the LN payload size limitations, there is a maximum length for each message you send. This size limitation is due to a few parameters, which include:
+
 - Payment route length
-  
 - Payload encoding
-  
 - Number of recipients (discussion participants)
 
 Since the exact size of a message depends on the route length, it cannot be calculated until the attempt is made to send the it, but the limit is around ~1KB for an immediate neighbor node.
@@ -134,12 +132,9 @@ Discussions offer a more organised solution for storing messages & payments, as 
 
 A discussion contains the following information:
 
-- The participant set (from which the user of c13n is excluded, since he is implicitly a participant)
-  
+- The participant set (from which the user of c13n is excluded, since he is implicitly a participant)  
 - The discussion options (such as fee limit per message)
-  
 - The ID of the last known message
-  
 - The ID of the last **read** message (meant for chatting applications: you can optionally update this field for cross-device discussion status)
 
 It is up to you to utilize one, multiple, or all of a discussion's attributes.
@@ -152,17 +147,11 @@ It is up to you to utilize one, multiple, or all of a discussion's attributes.
 You can use c13n to retrieve information about the Lightning Network and specific information about your own node. In detail, you can:
 
 - Search for LN nodes based on their alias or address
-  
 - Retrieve a list of all network nodes visible from your point-of-view
-  
 - Connect to a node (as a peer)
-  
 - Get information about your node
-  
 - Get information about your wallet (only balance, no channel status supported yet)
-  
 - Get the version of c13n currently running (for compatibility / maintenance)
-  
 
 ### Contacts (directory of addresses)
 
