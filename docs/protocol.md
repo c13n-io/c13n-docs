@@ -1,23 +1,21 @@
 # c13n Payload Protocols (experimental)
 
-c13n allows you to nest arbitrary data inside a specific TLV record. You are free to use this space to the best of your interest.
+c13n allows you to send arbitrary data from your node to another one in the network (destination node should use c13n, or be compatible with c13n utilized TLVs). You are free to use this space to the best of your interest.
 
 For the specific case of messaging over c13n, we promote the establishment of a common messaging protocol. Given the fact that users of the Lightning Network control the components of their stack, the applications they choose for the purpose of messaging might differ. It is the best for the ecosystem to allow those applications to be interoperable, meaning that users of `ChattingApp-X` shall be able to normally chat with users of `ChattingApp-Y`.
 
 ## c13n Messaging Protocol
 
-##### *,,Max support with minimum bytes''*
-
 The concept of a payload protocol attempts to extend the concept of sending raw message strings as payload to sending JSON objects containing various information. This will enable sending messages that trigger special functionalities, as descriptive information regarding the type and content of the composite message will be contained in the message itself.
 
 Since this protocol takes place inside the payload space of LN, it is critical to keep any metadata information as short as possible, due to the fact that this space is limited.
 
-Also, since each exchange of information costs a very small (but noticable) amount of sats, this protocol attempts to cover all the common features of modern messaging applications without requiring a lot of back-and-forth Lightning Network traffic.
+Also, since each exchange of information costs a very small (but noticable) amount of sats, this protocol attempts to cover all the common features of modern messaging applications without requiring a lot of back-and-forth Lightning Network payment-traffic.
 
 ```js
 {
     # Name of protocol
-    n: "c13n-cp"
+    n: "c13n-mp"
     # Version of protocol
     v: "0.0.1c",
     # Type of payload
@@ -28,7 +26,7 @@ Also, since each exchange of information costs a very small (but noticable) amou
     # payreq_pay: description of payment request fulfillment
     c: "",
     # (optional -- only for payreq) The invoice of the payment request
-    invoice: 0,
+    payreq: 0,
     # (optional -- only for message) File / Media attachments
     att: [{
         # Type of attachment
@@ -62,7 +60,7 @@ As nesting proves inefficient and not extendable as a concept, since we can not 
     # Version of protocol
     v: "x.y.z",
     # Protocol message type
-    t: "message1" | "message2" | "message3" | ...
+    t: "type1" | "type2" | "type3" | ...
     # Main content of specific message type
     c: "",
     # Protocol-specific metadata fields (can be optional)
