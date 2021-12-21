@@ -19,11 +19,10 @@ Also, since each exchange of information costs a very small (but noticable) amou
     # Version of protocol
     v: "0.0.1c",
     # Type of payload
-    t: "message" | "payreq" | "payreq_pay",
+    t: "message" | "payreq",
     # Content related to payload type
     # message: the message text
     # payreq: description of payment request
-    # payreq_pay: description of payment request fulfillment
     c: "",
     # (optional -- only for payreq) The invoice of the payment request
     payreq: 0,
@@ -86,10 +85,10 @@ The required fields for protocol messages following the c13n payload protocol te
 We can see that `c13n-cp` is a protocol that follows the c13n payload protocol template. In detail:
 
 - It includes the name `n: "c13n-cp"` and version `v: "0.0.1c"` of the protocol.
-- It defines a list of message types (`t`), which in this case are the message types that take place in a chatting application, these types are `message`, `payreq` (for messages that issue payment requests) and `payreq_pay` (for messages that fulfill `payreq` messages).
+- It defines a list of message types (`t`), which in this case are the message types that take place in a chatting application, these types are `message` (for standard messages) and  `payreq` (for messages that issue payment requests).
 - There is a field `c` for the main content of the specific message type. For example, in the case of message type `message`, this field contains the actual message the user typed with his/her keyboard. In the case of message type `payreq`, it could contain a short description related to the payment request, i.e. "You owe me 50K sats for the concert tickets".
 - We can see the rest of protocol-specific top level fields:
-    - `invoice`: (used by `payreq`/`payreq_pay` message types) The invoice the payment request is referring to.
+    - `payreq`: (used by `payreq` message type) The Lightning Network payment request.
     - `att`: (used by `message` message types) List of attachments (URL based) of this message, along with their metadata.
         * Type of attachment, `t`
         * URL of attachment, `u`
