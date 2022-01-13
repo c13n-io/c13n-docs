@@ -163,7 +163,7 @@ As a feature, it was introduced as a simple way of "renaming" nodes locally on y
 
 You can open channels by using c13n (with advanced funding options being unsupported currently).
 
-## Payload protocols (over c13n)
+## EXPERIMENTAL: Payload protocols (over c13n)
 
 As mentioned previously, you are given limited space for sending messages. Within this short space, you have to include all data & metadata used by your application.
 
@@ -173,6 +173,4 @@ It is up to you to decide how you are going to use this limited message space.
 
 For the sake of interoperability and compatibility in the application level (e.g. apps over c13n or any other tool), we would like to promote the establishment of a common messaging protocol over Lightning.
 
-[Arc]() is following the [c13n-chatting-protocol](https://notes.programize.com/eh3Wg9tBRx-0IleJ3FzfOg?view), a draft protocol developed for messaging focused applications over c13n. If any other application over c13n also follows this specific message format, then it would be interoperable with Arc, meaning that 2 users could normally communicate with no undesired side-effects or bugs. 
-
-This protocol is based on the [c13n-protocol-baselines](https://notes.programize.com/1e1ZQQHuQuucmyBSW2tjuw), which is a set of common rules for protocol messages to follow. This is designed with the intention of future-proofing, as these baselines attempt to create protocols that are self-descriptive and handle each other gracefully.
+A draft specification of this protocol will follow in a future update of the documentation.
