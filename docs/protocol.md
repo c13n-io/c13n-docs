@@ -2,13 +2,13 @@
 
 ## Introduction
 
-c13n allows you to send arbitrary data from your node to another one in the network (destination node should use c13n, or be compatible with [c13n utilized TLVs](../#a-few-words-on-tlvs)). You are free to use this space to the best of your interest.
+c13n allows you to send arbitrary data from your node to another one in the network (destination node should use c13n, or be compatible with [c13n utilized TLVs](index.md/#a-few-words-on-tlvs)). You are free to use this space to the best of your interest.
 
-For cases like messaging & communicating payment requests over c13n, we promote the establishment of common payload protocols. Given the fact that users of the Lightning Network control the components of their stack, the applications they choose might differ. It is the best for the ecosystem to allow those applications to be interoperable, meaning that users of `ChattingApp-X` shall be able to normally chat with users of `ChattingApp-Y`.
+For cases like messaging & communicating payment requests over c13n, we promote the establishment of common payload protocols. Given the fact that users of the Lightning Network control the components of their stack, the applications they choose might differ. It is the best for the ecosystem to allow those applications to be interoperable, meaning that users of `LightningApp-X` shall be able to normally interact with users of `LightningApp-Y`.
 
 The concept of a payload protocol attempts to extend the concept of sending raw message strings to sending (serialized) JSON objects containing various information. This will enable sending messages that trigger special functionalities, as descriptive information regarding the type and content of the composite message will be contained in the message itself.
 
-Since payload protocols take place inside the available payload space of Lightning Network, it is critical to keep any metadata information as short as possible, due to the fact that this space is limited. Also, since each exchange of information costs a very small (but noticable) amount of sats, such protocols attempt to cover their desired features without requiring a lot of back-and-forth Lightning Network payment-traffic.
+Since payload protocols take place inside the available payload space of Lightning Network, it is important to keep any metadata information as short as possible, due to the fact that this space is limited. Also, since each exchange of information costs a very small (but noticable) amount of sats, such protocols attempt to cover their desired features without requiring a lot of back-and-forth Lightning Network payment-traffic.
 
 
 
@@ -33,14 +33,14 @@ These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-
     # (Optional) File / Media attachments
     att: [{
         # Type of attachment
-        t: "image | file",
+        t: "image" | "file",
         # Location / URL
         u: "",
         # Metadata
-        tags: "lsat",
+        tags: "lsat" | "",
         # Visibility flag for chat
-        show: "true | false"
-    }],
+        show: "true" | "false"
+    }]
 }
 ```
 
@@ -63,13 +63,20 @@ These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-
 ```
 ## c13n Payload Protocol Template
 
-Since protocol nesting is not an efficient approach due to the limited payload size, a new concept where protocol messages share the same template can be considered.
+Since protocol nesting is not an efficient approach due to the limited payload size, a new concept where 
+
+- protocols are brought to the same level and 
+- protocol messages share the same template
+
+can be considered.
+
+For example, a chatting application that wants to integrate payments into chatting should not carry payment related information inside `c13n-mp`, but instead send `c13n-pp` messages to the other party.
 
 Lightning applications that operate over Lightning micropayments will have to interact with a variety of other applications and services over Lightning through the same medium. In order to reduce the technical weight of every application over c13n, it is better to work under the convention that arbitrary messages originating from the network will follow a specific format which will describe the message itself. This makes it easier for the application to decode the message and decide whether it supports a protocol/feature or not.
 
 Protocols do not need to define arbritrary data formats, but can instead respect the following template for better consistency, compatibility and application-level interoperability.
 
-As nesting proves inefficient and not extendable as a concept, since we can not increase the available payload size, all protocols are brought down to the same level. Hence, it is wiser to make them self descriptive in order for clients to handle them gracefully.
+As nesting proves inefficient in this context (at least since the payload size is fixed for now), all protocols are brought down to the same level. Hence, it is wiser to make them self descriptive in order for clients to handle them gracefully.
 
 ```js
 {
@@ -81,10 +88,10 @@ As nesting proves inefficient and not extendable as a concept, since we can not 
     t: "type1" | "type2" | "type3" | ...
     # Main content of specific message type (required field)
     c: "",
-    # Protocol-specific metadata fields (can be optional)
-    field1: type,
-    field2: type,
-    field3: type,
+    # Protocol-specific metadata fields
+    field1: type, # (required or optional)
+    field2: type, # (required or optional)
+    field3: type, # (required or optional)
     ...
     
 }
@@ -105,7 +112,7 @@ We can see that `c13n-mp` is a protocol that follows the c13n payload protocol t
 
 - It includes the name `n: "c13n-mp"` and version `v: "0.0.1c"` of the protocol.
 - It defines a list of message types (`t`), which in this case is just one type ,`message`. On a future version of `c13n-mp` more message types could be defined, like `reply` or `reaction`.
-- There is a field `c` for the main content of the specific message type. For example, in the case of message type `message`, this field contains the actual message the user typed with his/her keyboard.
+- There is a field `c` for the main content of the specific message type. For example, in the case of message type `message`, this field contains the actual message the user typed inside the Lightning Application.
 - We can see the rest of protocol-specific top level fields:
     - `att`: (used by `message` types) List of attachments (URL based) of this message, along with their metadata.
         * Type of attachment, `t`
