@@ -17,6 +17,7 @@ Since payload protocols take place inside the available payload space of Lightni
 These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-protocol-template), a set of common rules for protocol messages to follow. This is designed with the intention of future-proofing, as these baselines attempt to create protocols that are self-descriptive and handle each other gracefully.
 
 > [Arc](https://github.com/c13n-io/arc) is an application which supports both `c13n-mp` and `c13n-pp`.
+
 - ### c13n Messaging Protocol
 
 ```js
