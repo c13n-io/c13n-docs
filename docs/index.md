@@ -162,15 +162,3 @@ As a feature, it was introduced as a simple way of "renaming" nodes locally on y
 ### Openning Channels
 
 You can open channels by using c13n (with advanced funding options being unsupported currently).
-
-## EXPERIMENTAL: Payload protocols (over c13n)
-
-As mentioned previously, you are given limited space for sending messages. Within this short space, you have to include all data & metadata used by your application.
-
-> i.e. a message could contain information about file attachments, references to other messages (for replying) and a plethora of other useful information.
-
-It is up to you to decide how you are going to use this limited message space.
-
-For the sake of interoperability and compatibility in the application level (e.g. apps over c13n or any other tool), we would like to promote the establishment of a common messaging protocol over Lightning.
-
-A draft specification of this protocol will follow in a future update of the documentation.

@@ -12,4 +12,5 @@ extra_css:
 
 nav:
   - Home: index.md
+  - Payload Protocols (experimental): protocol.md
   - API documentation: /projects/api
