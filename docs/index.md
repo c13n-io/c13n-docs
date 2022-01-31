@@ -1,8 +1,8 @@
 # c13n documentation
 
-## Gentle Introduction
+## I. Gentle Introduction
 
-### Goals
+### a. Goals
 
 This project started as a proof of concept aiming at communication over [Lightning](https://lightning.network/).
 
@@ -10,7 +10,7 @@ To that end, c13n exploits both the decentralized nature of Lightning and its tr
 
 Despite initially being geared exclusively towards communication, the direction has started to shift more towards adding full support for payment requests and payments in order to take advantage of more features such as [MPP](https://github.com/lightningnetwork/lightning-rfc/blob/master/04-onion-routing.md#basic-multi-part-payments) (see also [here](https://github.com/lightningnetwork/lightning-rfc/blob/master/09-features.md#bolt-9-assigned-feature-flags)) and [offers](https://github.com/rustyrussell/lightning-rfc/blob/guilt/offers/12-offer-encoding.md#bolt-12-flexible-protocol-for-lightning-payments) (if and when they become an official part of the BOLT specification).
 
-### Lightning Introduction
+### b. Lightning Introduction
 
 After use of Bitcoin became more widespead, transaction throughput on its blockchain started to become insufficient.
 
@@ -27,7 +27,7 @@ Apart from the method outlined above (of a payment fulfiling an invoice), there 
 
 You can also head to [Lightning Labs Documentation](https://docs.lightning.engineering/the-lightning-network/lightning-overview) for more documentation related to Lightning Network.
 
-## Architectural Overview
+## II. Architectural Overview
 
 ![](https://i.imgur.com/6AAG0qh.png)
 
@@ -42,7 +42,7 @@ You can also head to [Lightning Labs Documentation](https://docs.lightning.engin
 - **Application**
     An application built on top of c13n, which takes advantage of data transfer functionalities.
 
-### Daemon Communication
+### a. Daemon Communication
 
 c13n sits on top of an `lnd` using its `rpc` interface, and offering  functionality over an `rpc` interface of its own to consumers.
 
@@ -54,11 +54,11 @@ If you are looking for an application over c13n as a reference, make sure to che
 
 This project aims to respect the decentralized, peer-to-peer, secure and private character of the utilized medium, the Lightning Network.
 
-## Compatibility
+## III. Compatibility
 
 c13n is currently implemented on top of [lnd](https://github.com/lightningnetwork/lnd) since it provides easy access to custom records over its API, although extending support to other daemons is planned (most notably [c-lightning](https://github.com/ElementsProject/lightning)).
 
-### Node Requirements
+### a. Node Requirements
 
 `lnd` provides both access to the custom records of HTLCs as well as support for signing with the node's private key.
 
@@ -66,7 +66,7 @@ At the moment, the requirements for setting up c13n is an operational `lnd` with
 
 NOTE: c13n does not yet implement support for unlocking the node's wallet, so it should be unlocked prior to connection with `lnd`.
 
-### A few words on TLVs
+### b. A few words on TLVs
 
 A *TLV* is an encoding used by Lightning for data exchange between nodes, which is able to represent structured (and nested) data.
 Support for transmitting custom, application-level data has been allowed in the [specifications](https://github.com/lightningnetwork/lightning-rfc), by allowing them to be transmitted in [custom TLV record ranges](https://github.com/lightningnetwork/lightning-rfc/blob/master/01-messaging.md#type-length-value-format) while respecting some basic requirements such as [*it's okay to be odd*](https://github.com/lightningnetwork/lightning-rfc/blob/master/01-messaging.md#requirements).
@@ -79,27 +79,27 @@ Since there is no standardization of TLVs on the custom range, an application sh
 
 The custom types used for data transmission in c13n are odd and are simply ignored by receiving nodes with [BOLT](https://github.com/lightningnetwork/lightning-rfc/blob/master/00-introduction.md#bolt-0-introduction-and-index)-compliant daemons.
 
-### Payload TLV
+### c. Payload TLV
 
 c13n transmits all data on-medium, inside the fixed-size [onion packet](https://github.com/lightningnetwork/lightning-rfc/blob/master/04-onion-routing.md#packet-structure), which must also contain routing information necessary for the payment flow.
 This means that there is a balance between the payload size and the route length.
 
 The data sent by c13n are placed in the `payload` TLV. It actually is a serialized JSON containing the discussion participants list and the provided raw message string.
 
-### Signing
+### d. Signing
 
 The transmitted payloads are currently optionally signed with the node's private key so that the identity of the sender can be verified.
 When enabled, the anonymity afforded to the payer by the medium is -- in a way -- defeated, but is the current way of identifying a sender on the network, which is important when data are involved.
 
 > This project is still in its infancy, currently marked as `alpha`, meaning operation and compatibility are subject to change.
 
-## Top-level c13n API functionality
+## IV. Top-level c13n API functionality
 
 As mentioned above, c13n creates higher level functionalities & concepts, and exposes them through its RPC API.
 
 A brief overview of those functionalities is presented below:
 
-### Messages & Payments
+### a. Messages & Payments
 
 This is the core feature of c13n, you can easily send messages and/or payments to other network nodes. Each message/payment automatically triggers the calculation of an optimal path to the destination. "Estimating" a message, in terms of path selection and fees, is also possible through the API.
 
@@ -125,7 +125,7 @@ Since the exact size of a message depends on the route length, it cannot be calc
 Last but not least, as of yet, messages are sent to **discussions**, which must be created before attempting to send one. This means that when you send a message you don't specify the recipient but instead reference the ID of an existing discussion.
 Read the following section for more info about discussions.
 
-### Discussions
+### b. Discussions
 
 You can create discussions with a set of participants (Lightning addresses, that is) and apply specific options to them. You can involve more than 2 people in a discussion, meaning that (in a rudimentary way) group chatting is supported.
 Discussions offer a more organised solution for storing messages & payments, as these are related with the recipient address(es). There is a consistent history for each discussion, and each discussion is uniquely identified by the participant set.
@@ -142,7 +142,7 @@ It is up to you to utilize one, multiple, or all of a discussion's attributes.
 > Note for group discussions: When you involve multiple addresses to a discussion, you basically create a group discussion. Our current implementation includes all the participants with each message. Appending many members to the discussion's participants list has the side effect of reducing the available message space.
 > For example, for a discussion with ~15-20 participants and a route length of 1 hop, there is very little to no space left for writing messages.
 
-### LN & Node information
+### c. LN & Node information
 
 You can use c13n to retrieve information about the Lightning Network and specific information about your own node. In detail, you can:
 
@@ -153,12 +153,12 @@ You can use c13n to retrieve information about the Lightning Network and specifi
 - Get information about your wallet (only balance, no channel status supported yet)
 - Get the version of c13n currently running (for compatibility / maintenance)
 
-### Contacts (directory of addresses)
+### d. Contacts (directory of addresses)
 
 This is something optional you can use to store nodes found in the network. Making some address your "contact" means storing it in an exclusive list of nodes, and optionally applying a different "display name".
 
 As a feature, it was introduced as a simple way of "renaming" nodes locally on your storage, but it can serve many other purposes.
 
-### Openning Channels
+### e. Openning Channels
 
 You can open channels by using c13n (with advanced funding options being unsupported currently).
