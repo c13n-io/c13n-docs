@@ -22,13 +22,13 @@ Due to browser limitations, in order to use c13n API (or any RPC API) using Java
 
 In this guide, steps for `gRPC-web` reverse proxying using [Envoy](envoyproxy.io/) are described.
 
-### Envoy Installation
+### Installation
 
 Envoy could be either installed as a native application or deployed using Docker. For native installation, please follow the up-to-date [official guide](https://www.envoyproxy.io/docs/envoy/latest/start/install).
 
 For this guide, we are going to use the official envoy Docker image to deploy a gRPC-web proxy.
 
-### Envoy configuration
+### Configuration
 
 The reverse proxy is based on the `listener_grpc_web` envoy listener. Below, we provide an example envoy configuration file. 
 
@@ -125,7 +125,7 @@ static_resources:
 
 ```
 
-### Envoy using SSL
+### Using SSL
 
 In order to setup SSL with Envoy, a certificate is needed. This can be a preexisting one or a self signed. For the latter, `openssl` can be used:
 
@@ -138,10 +138,10 @@ openssl \
        -out envoy.crt \
        -nodes -batch \
        -days 365 \
-       -addext 'subjectAltName=IP:$ENVOY_HOST'
+       -addext "subjectAltName=IP:$ENVOY_HOST"
 ```
 
-### Envoy usage
+### Usage
 Using the configuration file created in the last step (`envoy.yaml`), execute the following command:
     
 ```bash
@@ -153,4 +153,4 @@ docker run \
     envoyproxy/envoy:v1.20.0
 ```
 
-c13n is now proxied over Envoy and ready to be consumed by gRPC clients. For a reference client implementation, consult [arc](https://github.com/c13n-io/arc), a messaging application based on c13n. You can also directly use arc at https://c13n-io.github.io/arc/.
+c13n is now proxied over Envoy and ready to be consumed by gRPC clients. For a reference client implementation, consult [arc](https://github.com/c13n-io/arc), a messaging application based on c13n. You can also directly use arc at [c13n-io.github.io/arc](https://c13n-io.github.io/arc/).
