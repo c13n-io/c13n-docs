@@ -33,6 +33,7 @@ For this guide, we are going to use the official envoy Docker image to deploy a 
 The reverse proxy is based on the `listener_grpc_web` envoy listener. Below, we provide an example envoy configuration file. 
 
 Replace the following variables:
+
 * `<PROXIED_RPC_HOST>`: Proxy host (used by gRPC-web clients)
 * `<PROXIED_RPC_PORT>`: Proxy port (used by gRPC-web clients)
 * `<C13N_RPC_API_HOST>`: c13n-go host
