@@ -11,8 +11,10 @@ We are going to setup **c13n** and connect it to an LND. When that is completed,
 
 ## c13n
 
-You need to install and run `c13n-go` on the same host as `lnd`.
-> For now, c13n can not access a remote lnd.
+You can either install and run `c13n-go` on the same host as `lnd`, or install remotely on another machine.
+
+> For remote access to `lnd` you need to include the `tlsextraip` option in your `lnd.conf` file for the ip to be included in the generated cert. For more info check `lnd`'s [sample-lnd.conf](https://github.com/lightningnetwork/lnd/blob/791411cdb85941001cb2af5f3ec5d47e97a5d19c/sample-lnd.conf#L42).
+
 
 For more instructions on how to set up `c13n-go` and connect it to your `lnd`, please follow the detailed guide on its [Github repository](https://github.com/c13n-io/c13n-go#getting-started).
 
