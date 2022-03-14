@@ -2,7 +2,7 @@
 
 ## Introduction
 
-c13n allows you to send arbitrary data from your node to another one in the network (destination node should use c13n, or be compatible with [c13n utilized TLVs](index.md/#a-few-words-on-tlvs)). You are free to use this space to the best of your interest.
+c13n allows you to send arbitrary data from your node to another one in the network (destination node should use c13n, or be compatible with [c13n utilized TLVs](index.md#a-few-words-on-tlvs)). You are free to use this space to the best of your interest.
 
 For cases like messaging & communicating payment requests over c13n, we promote the establishment of common payload protocols. Given the fact that users of the Lightning Network control the components of their stack, the applications they choose might differ. It is the best for the ecosystem to allow those applications to be interoperable, meaning that users of `LightningApp-X` shall be able to normally interact with users of `LightningApp-Y`.
 
