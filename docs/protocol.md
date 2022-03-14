@@ -17,6 +17,7 @@ Since payload protocols take place inside the available payload space of Lightni
 These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-protocol-template), a set of common rules for protocol messages to follow. This is designed with the intention of future-proofing, as these baselines attempt to create protocols that are self-descriptive and handle each other gracefully.
 
 > [Arc](https://github.com/c13n-io/arc) is an application which supports both `c13n-mp` and `c13n-pp`.
+> This means that Arc knows how to handle `c13n-mp`/`c13n-pp` messages and allows sending/receiving/handling these types of messages over c13n.
 
 - ### c13n Messaging Protocol
 
@@ -27,8 +28,9 @@ These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-
     # Version of protocol
     v: "0.0.1c",
     # Type of payload
+    # message: A standard text message
     t: "message",
-    # Content related to payload type
+    # Content related to type of payload
     # message: the message text
     c: "",
     # (Optional) File / Media attachments
@@ -54,9 +56,12 @@ These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-
     # Version of protocol
     v: "0.0.1a",
     # Type of payload
-    t: "payreq",
+    # payreq: A message notifying for a new payment request
+    # payreq_pay: A message notifying for the fulfillment of a payment request
+    t: "payreq" | "payreq_pay"
     # Content related to payload type
     # payreq: the payment request
+    # payreq_pay: the payment request 
     c: "",
     # (Optional) Description of payment request
     d: ""
@@ -71,13 +76,12 @@ Since protocol nesting is not an efficient approach due to the limited payload s
 
 can be considered.
 
-For example, a chatting application that wants to integrate payments into chatting should not carry payment related information inside `c13n-mp`, but instead send `c13n-pp` messages to the other party.
+For example, a chatting application that wants to integrate payment requests into chatting should not carry payment related information inside `c13n-mp`, but instead send `c13n-pp` messages to the other party.
 
 Lightning applications that operate over Lightning micropayments will have to interact with a variety of other applications and services over Lightning through the same medium. In order to reduce the technical weight of every application over c13n, it is better to work under the convention that arbitrary messages originating from the network will follow a specific format which will describe the message itself. This makes it easier for the application to decode the message and decide whether it supports a protocol/feature or not.
 
 Protocols do not need to define arbritrary data formats, but can instead respect the following template for better consistency, compatibility and application-level interoperability.
 
-As nesting proves inefficient in this context (at least since the payload size is fixed for now), all protocols are brought down to the same level. Hence, it is wiser to make them self descriptive in order for clients to handle them gracefully.
 
 ```js
 {
