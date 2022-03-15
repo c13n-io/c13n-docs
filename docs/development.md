@@ -79,7 +79,13 @@ docker-compose exec lnd bash
 With this, the c13n development node is up and running, exposing the c13n RPC API.
 
 ## RPC
+When directly consuming the RPC API provided by c13n, there is no need for a reverse proxy deployment so the only profiles needed are the following:
 
+```bash
+docker-compose --profile lnd --profile c13n up
+```
+
+The certificates generated during setup for c13n can then be used to consume RPC with TLS.
 
 ## gRPC-web
 By using the `--profile envoy`, we are placing an **Envoy reverse proxy** in front of the c13n RPC service. Envoy is needed in order to enable web applications (like [arc](https://github.com/c13n-io/arc/)) to normally communicate with the c13n RPC API.
