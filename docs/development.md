@@ -13,7 +13,7 @@ During development, some of the testbench elements may not be required. For this
 
 ### Requirements
 * Docker
-* docker-compose `>=2.2.3`
+* docker-compose `>=1.29.2`
 * openssl
 
 ### Setup
