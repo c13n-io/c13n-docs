@@ -61,7 +61,7 @@ These protocols are based on the [c13n Payload Protocol Template](#c13n-payload-
     t: "payreq" | "payreq_pay"
     # Content related to payload type
     # payreq: the payment request
-    # payreq_pay: the payment request 
+    # payreq_pay: the payment request fulfillment notifier
     c: "",
     # (Optional) Description of payment request
     d: ""

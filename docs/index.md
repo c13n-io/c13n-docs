@@ -50,7 +50,7 @@ It only needs access to the daemon's interface without utilizing any external or
 
 Access to a node requires the wallet being unlocked, as well as the `rpc` interface connection credentials, and the offered interface is only protected by basic auth at the moment.
 
-If you are looking for an application over c13n as a reference, make sure to check [Arc](), a chatting application that exclusively utilizes Lightning Network payments.
+If you are looking for an application over c13n as a reference, make sure to check [Arc](https://github.com/c13n-io/arc), a chatting application that exclusively utilizes Lightning Network payments.
 
 This project aims to respect the decentralized, peer-to-peer, secure and private character of the utilized medium, the Lightning Network.
 
