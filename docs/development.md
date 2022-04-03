@@ -4,6 +4,7 @@
 While you can always deploy a fully fledged lightning daemon and a c13n node, it is always useful to set up a testbench during development. In this guide, we will deploy a local testbench with a Neutrino backed lnd on testnet, a c13n node and an example application consuming the c13n API.
 
 The testbench is using the following containerized elements via `Docker` and `docker-compose`:
+
 * `lnd`: Lightning node using Neutrino as a BTC backend in Testnet
 * `envoy`: Proxy to provide `gRPC-web` support for the `c13n` RPC server
 * `c13n`: The main stack element
@@ -77,6 +78,32 @@ docker-compose exec lnd bash
     * REST: `0.0.0.0:8083`
 
 With this, the c13n development node is up and running, exposing the c13n RPC API.
+
+## Custom testbench elements
+Testbench elements are pluggable and can be replaced with custom implementations during development and testing. The testbench setup is based on `docker-compose`, making the usage of custom elements as easy as replacing the `image:` tag value for each particular image. For example, the following steps enable the usage of a custom `c13n-go` testbench image:
+
+* Build a custom `c13n-go` image with the desired changes:
+
+```bash
+git clone https://github.com/c13n-io/c13n-go.git
+cd c13n
+
+# Modify c13n
+# ...
+
+docker build -t test_c13n_go -f docker/c13n/Dockerfile . 
+```
+
+The last command builds a modified docker image, tagging it as `test_c13n_go` in the local Docker registry.
+
+* Modify the `docker-compose` definition, Replacing `image: ghcr.io/c13n-io/c13n-go:latest` with `image: test_c13n_go` under the c13n service definition.
+
+* Start the modified stack:
+
+```bash
+docker-compose --profile arc --profile c13n-go --profile lnd --profile envoy up
+```
+
 
 ## RPC
 When directly consuming the RPC API provided by c13n, there is no need for a reverse proxy deployment so the only profiles needed are the following:
