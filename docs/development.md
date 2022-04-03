@@ -79,6 +79,32 @@ docker-compose exec lnd bash
 
 With this, the c13n development node is up and running, exposing the c13n RPC API.
 
+## Custom testbench elements
+Testbench elements are pluggable and can be replaced with custom implementations during development and testing. The testbench setup is based on `docker-compose`, making the usage of custom elements as easy as replacing the `image:` tag value for each particular image. For example, the following steps enable the usage of a custom `c13n-go` testbench image:
+
+* Build a custom `c13n-go` image with the desired changes:
+
+```bash
+git clone https://github.com/c13n-io/c13n-go.git
+cd c13n
+
+# Modify c13n
+# ...
+
+docker build -t test_c13n_go -f docker/c13n/Dockerfile . 
+```
+
+The last command builds a modified docker image, tagging it as `test_c13n_go` in the local Docker registry.
+
+* Modify the `docker-compose` definition, Replacing `image: ghcr.io/c13n-io/c13n-go:latest` with `image: test_c13n_go` under the c13n service definition.
+
+* Start the modified stack:
+
+```bash
+docker-compose --profile arc --profile c13n-go --profile lnd --profile envoy up
+```
+
+
 ## RPC
 When directly consuming the RPC API provided by c13n, there is no need for a reverse proxy deployment so the only profiles needed are the following:
 
