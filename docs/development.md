@@ -4,6 +4,7 @@
 While you can always deploy a fully fledged lightning daemon and a c13n node, it is always useful to set up a testbench during development. In this guide, we will deploy a local testbench with a Neutrino backed lnd on testnet, a c13n node and an example application consuming the c13n API.
 
 The testbench is using the following containerized elements via `Docker` and `docker-compose`:
+
 * `lnd`: Lightning node using Neutrino as a BTC backend in Testnet
 * `envoy`: Proxy to provide `gRPC-web` support for the `c13n` RPC server
 * `c13n`: The main stack element
