@@ -15,3 +15,7 @@ nav:
   - Payload Protocols (experimental): protocol.md
   - Development: development.md
   - API documentation: /projects/api
+
+markdown_extensions:
+  - pymdownx.superfences
+
