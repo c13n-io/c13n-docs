@@ -38,8 +38,7 @@ openssl req -x509 -newkey rsa:4096 -keyout envoy.key -out envoy.crt -nodes -batc
 ```
 
 4. Generate encryption key for c13n database
-:construction: This should be avoided in production. Encryption keys should not be stored in the same host with the encrypted database :construction:
-
+> **This should be avoided in production. Encryption keys should not be stored in the same host with the encrypted database**
 ```shell
 cd c13n/conf
 tr -dc 'a-zA-Z0-9' < /dev/urandom | dd bs=1 count=32 of=store.key
@@ -47,9 +46,9 @@ tr -dc 'a-zA-Z0-9' < /dev/urandom | dd bs=1 count=32 of=store.key
 
 5. Configure stack elements
 Configuration for each stack element is located in the following paths:
-* `lnd`: `lnd/conf/lnd.conf`
-* `c13n`: `c13n/conf/config.yml`
-* `envoy`: `envoy/conf/envoy.yml`
+    * `lnd`: `lnd/conf/lnd.conf`
+    * `c13n`: `c13n/conf/config.yml`
+    * `envoy`: `envoy/conf/envoy.yml`
 
 6. Start the stack
 The stack is now ready to be initialized.
@@ -71,19 +70,18 @@ docker-compose exec lnd bash
 ```
 
 9. Access stack elements
-* `c13n` RPC service: `0.0.0.0:9999`
-* `arc`: `0.0.0.0:443/c13n`
-* `lnd`:
-    * RPC: `0.0.0.0:10009`
-    * REST: `0.0.0.0:8083`
+    * `c13n` RPC service: `0.0.0.0:9999`
+    * `arc`: `0.0.0.0:443/c13n`
+    * `lnd`:
+        * RPC: `0.0.0.0:10009`
+        * REST: `0.0.0.0:8083`
 
 With this, the c13n development node is up and running, exposing the c13n RPC API.
 
 ## Custom testbench elements
 Testbench elements are pluggable and can be replaced with custom implementations during development and testing. The testbench setup is based on `docker-compose`, making the usage of custom elements as easy as replacing the `image:` tag value for each particular image. For example, the following steps enable the usage of a custom `c13n-go` testbench image:
 
-* Build a custom `c13n-go` image with the desired changes:
-
+1. Build a custom `c13n-go` image with the desired changes:
 ```bash
 git clone https://github.com/c13n-io/c13n-go.git
 cd c13n
@@ -96,14 +94,12 @@ docker build -t test_c13n_go -f docker/c13n/Dockerfile .
 
 The last command builds a modified docker image, tagging it as `test_c13n_go` in the local Docker registry.
 
-* Modify the `docker-compose` definition, Replacing `image: ghcr.io/c13n-io/c13n-go:latest` with `image: test_c13n_go` under the c13n service definition.
+2. Modify the `docker-compose` definition, Replacing `image: ghcr.io/c13n-io/c13n-go:latest` with `image: test_c13n_go` under the c13n service definition.
 
-* Start the modified stack:
-
+3. Start the modified stack:
 ```bash
 docker-compose --profile arc --profile c13n-go --profile lnd --profile envoy up
 ```
-
 
 ## RPC
 When directly consuming the RPC API provided by c13n, there is no need for a reverse proxy deployment so the only profiles needed are the following:
