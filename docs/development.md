@@ -92,10 +92,9 @@ cd c13n
 docker build -t test_c13n_go -f docker/c13n/Dockerfile . 
 ```
 
-The last command builds a modified docker image, tagging it as `test_c13n_go` in the local Docker registry.
+    The last command builds a modified docker image, tagging it as `test_c13n_go` in the local Docker registry.
 
 2. Modify the `docker-compose` definition, Replacing `image: ghcr.io/c13n-io/c13n-go:latest` with `image: test_c13n_go` under the c13n service definition.
-
 3. Start the modified stack:
 ```bash
 docker-compose --profile arc --profile c13n-go --profile lnd --profile envoy up
