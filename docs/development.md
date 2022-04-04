@@ -21,7 +21,7 @@ During development, some of the testbench elements may not be required. For this
 
 1. Download the deployment stack definition
 ```shell
-git clone git@github.com:c13n-io/c13n-dev-stack.git
+git clone https://github.com/c13n-io/c13n-dev-stack.git
 cd c13n-dev-stack
 ```
 
