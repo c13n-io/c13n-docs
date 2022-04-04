@@ -36,6 +36,7 @@ openssl req -nodes -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -confi
 cd envoy/certs
 openssl req -x509 -newkey rsa:4096 -keyout envoy.key -out envoy.crt -nodes -batch -days 365 -addext 'subjectAltName=IP:0.0.0.0'
 ```
+Before proceeding to the next step, ensure that both `envoy.crt` and `envoy.key` are readable from inside the container (usually a `chmod o+r envoy.*` is enough).
 
 4. Generate encryption key for c13n database
 > **This should be avoided in production. Encryption keys should not be stored in the same host with the encrypted database**
