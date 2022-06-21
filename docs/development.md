@@ -45,32 +45,39 @@ cd c13n/conf
 tr -dc 'a-zA-Z0-9' < /dev/urandom | dd bs=1 count=32 of=store.key
 ```
 
-5. Configure stack elements
+5. Generate RPC server password hash
+    * Generate the hash using `c13n genpwdhash`
+    ```shell
+    docker run -it ghcr.io/c13n-io/c13n-go:latest genpwdhash
+    ```
+    * Set the c13n RPC server password hash to the generated value in `c13n/conf/config.yml:server.pwdhash`
+
+6. Configure stack elements
 Configuration for each stack element is located in the following paths:
     * `lnd`: `lnd/conf/lnd.conf`
     * `c13n`: `c13n/conf/config.yml`
     * `envoy`: `envoy/conf/envoy.yml`
 
-6. Start the stack
+7. Start the stack
 The stack is now ready to be initialized.
 ```shell
 docker-compose --profile arc --profile c13n-go --profile lnd --profile envoy up
 ```
 
-7. Create the lnd wallet
+8. Create the lnd wallet
 Even though the stack is initialized, a lightning wallet should first be created before c13n can connect with the lnd node.
 ```shell
 docker-compose exec lnd bash
 # lncli --network testnet create
 ```
 
-8. Unlock lnd wallet
+9. Unlock lnd wallet
 ```shell
 docker-compose exec lnd bash
 # lncli --network testnet unlock
 ```
 
-9. Access stack elements
+10. Access stack elements
     * `c13n` RPC service: `0.0.0.0:9999`
     * `arc`: `0.0.0.0:443/c13n`
     * `lnd`:
